@@ -1,20 +1,39 @@
-Kindly handle dependencies among libraries and incompatability issues caused by versions conflicts.
-This took a while to be dealed with.
+# Segmantic Segmentation (SegNet)
+******
 
-0. Make sure that you have CamVid test/testannot set the corresponding dir before training and run $ preprocess_testdata.py
+![DEMO](./demo.gif)
+
+SegNet is to segment objects contained in a image.
+Refer to this paper: [SegNet: A Deep Convolutional
+Encoder-Decoder Architecture for Image
+Segmentation](https://arxiv.org/pdf/1511.00561)
+
+The below is the procedure to run this program.
+Kindly handle library dependencies and incompatability issues caused by versions conflicts or path configuration.
 
 1. $ train.py
-    - with specifyig parameters 
+	* 	Make sure that you have CamVid dataset (test/testannot/train/trainannot/val/valannot) on the corresponding dir before training along with specifyig parameters.
 
-2. Delete test dir from Camvid. Empty out and rename the corresponding test dir, whose dataset was segmented into several batches (test1,2,3 dont name "test"!, fix the run.sh accordingly) as the ps is killed by the overloads (Though testannot dir is going to be piled up with duplicated images with different filenames). 
+2. After training the model, delete test directory from Camvid and divide your test datasets into several differnt directories (e.g. test1, test2, test3, each test directory can contain around 1000 images or so). As huge batch will cause an overload on memory and an execution is going to killed. 
+	* Accoerdingly, fix run.sh
 
 3. $ ./run.sh
-	4. $ preprocess_testdata.py
-		- 1. get all the filenames of images in test (after renamed) dir
-		- 2. overwrite test.txt
-		- 3. duplicate random testannot file, the no. of file is corresponding the length of the above filenames
-	5. $ predict.py
-		- output segmented results into out dir
+	1. preprocess_testdata.py
+		* get all the filenames placed in testX directory
+		* overwrite text.txt
+		* duplicate a random labelled image into testannot 
+	2. predict.py
+		* output segmented results into out directory 
 
-6. $ segmented_img_analyser.py
-	- pixel_parsed_report.csv is the output (unlabelled will be zero entirely and road_marking class can be regarded as unlabelled)
+4. $ segmented_img_analyser.py
+	* output a report (pixel_parsed_report.csv) after pixel by pixel parsing (unlabelled will be zero entirely and road_marking class can be regarded as unlabelled).
+		
+******
+
+Kohei Yamamoto
+
+National University of Singapore (NUS)
+
+With reference to 
+[Alex Kendall](https://github.com/alexgkendall/SegNet-Tutorial), 
+[uni-3](https://qiita.com/uni-3/items/a62daa5a03a02f5fa46d)
